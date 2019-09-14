@@ -15,7 +15,7 @@ let startY;
 canvas.onmousedown = mouseDown;
 canvas.onmouseup = myUp;
 canvas.onmousemove = myMove;
-// canvas.ondblclick = borrarNodo;
+canvas.ondblclick = borrarNodo;
 let poligonos = [];
 let contPol = 0;
 clear();
@@ -110,13 +110,15 @@ function dibujarLineas(){
 	}
 }
 function dibujarUnaLinea(c1,c2){
-	ctx.beginPath();
-	ctx.moveTo(c1.getX(), c1.getY());
-	ctx.lineTo(c2.getX(), c2.getY());
-	ctx.strokeStyle = "yellow";
-	ctx.lineWidth = 1;
-	ctx.stroke();
-	ctx.closePath();
+	if(c1 != null && c2 != null){
+		ctx.beginPath();
+		ctx.moveTo(c1.getX(), c1.getY());
+		ctx.lineTo(c2.getX(), c2.getY());
+		ctx.strokeStyle = "yellow";
+		ctx.lineWidth = 1;
+		ctx.stroke();
+		ctx.closePath();
+	}
 }
 class Poligono{
 	constructor(){
@@ -162,8 +164,15 @@ class Poligono{
 		this.centro.setY(y);
 	}
 	eliminarNodo(i){
-		for(let j=i;j<this.getSize()-1;j++)
-			this.circulos[j] = this.circulos[j+1];
+		this.circulos[i] = this.circulos[this.contador-1];
+		this.circulos.pop();
+		this.contador--;
+	}
+	eliminarPoligono(i){
+		poligonos[i] = poligonos[contPol-1];
+		poligonos.pop();
+		contPol--;
+		poligonos[contPol] = new Poligono();
 	}
 }
 poligonos[contPol] = new Poligono();
@@ -175,7 +184,9 @@ function myUp(e) {
 	for (let i=0; i<=poligonos.length; i++) {
 		if(poligonos[i] != null){
 			for(let j = 0; j<poligonos[i].getSize(); j++){
-				poligonos[i].getCirculo(j).setFalse();
+				if(poligonos[i].getCirculo(j) != null){
+					poligonos[i].getCirculo(j).setFalse();
+				}
 			}
 			if(poligonos[i].estaCerrado()){
 				poligonos[i].getCentro().setFalse();
@@ -221,11 +232,47 @@ function myMove(e) {
 		startY = my;
 	}
 }
-// function borrarNodo(e){
-// }
+function borrarNodo(event){
+	console.log("Borrar");
+	event.preventDefault();
+	event.stopPropagation();
+	let mx = parseInt(event.clientX - offsetX);
+	let my = parseInt(event.clientY - offsetY);
+	// dragok = false;
+	for (let i=0; i<=poligonos.length; i++) {
+		if(poligonos[i] != null){
+			for(let j = 0; j<poligonos[i].getSize(); j++){
+				let c = poligonos[i].getCirculo(j);
+				if(c != null){
+					let dx=c.getX()-mx;
+					let dy=c.getY()-my;
+					if(dx*dx+dy*dy < Math.pow(c.getRadio(),2)){
+						console.log("llega Borrar");
+						poligonos[i].eliminarNodo(j);
+						dibujarTodo();
+					}
+				}
+				if(poligonos[i].estaCerrado()){
+					let c = poligonos[i].getCentro();
+					let dx=c.getX()-mx;
+					let dy=c.getY()-my;
+					if(dx*dx+dy*dy < Math.pow(c.getRadio(),2)){
+						poligonos[i].eliminarPoligono(i);
+						dibujarTodo();
+					}	
+				}
+			}
+		}
+	}
+	startX = mx;
+	startY = my;
+}
+
 function mouseDown(event){
 	let x = event.layerX;
 	let y = event.layerY;
+	console.log("Posición x: "+x);
+	console.log("Posición y: "+y);
 	if(!clickSobreFigura(x,y)){
 		crearCirculo();
 		console.log("Circulo ["+contPol+"]"+"["+poligonos[contPol].getSize()+"]");
