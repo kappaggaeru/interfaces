@@ -2,7 +2,6 @@
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 document.getElementById("cerrarPol").addEventListener("click",cerrarPoligono);
-// document.getElementById("borrar").addEventListener("click",borrarNodo);
 
 let BB = canvas.getBoundingClientRect();
 let offsetX = BB.left;
@@ -13,11 +12,10 @@ let dragok = false;
 let startX;
 let startY;
 
-// canvas.onsdblclick = crearCirculo;
-canvas.onmousedown = myDown;
+canvas.onmousedown = mouseDown;
 canvas.onmouseup = myUp;
 canvas.onmousemove = myMove;
-canvas.ondblclick = crearCirculo;
+// canvas.ondblclick = borrarNodo;
 let poligonos = [];
 let contPol = 0;
 clear();
@@ -82,8 +80,7 @@ function dibujarTodo(){
 	clear();
 	for(let i=0; i<=contPol; i++){
 		for(let j=0; j<poligonos[i].getSize(); j++){
-			// if(poligonos[i] != null)
-				dibujarCirculo(poligonos[i].getCirculo(j));
+			dibujarCirculo(poligonos[i].getCirculo(j));
 		}
 		if(poligonos[i].estaCerrado()){
 			dibujarCirculo(poligonos[i].getCentro());
@@ -134,7 +131,6 @@ class Poligono{
 	}
 	addCentro(c){
 		this.centro  = c;
-		// this.contador++;
 	}
 	getCentro(){
 		return this.centro;
@@ -172,51 +168,18 @@ class Poligono{
 }
 poligonos[contPol] = new Poligono();
 
-// codigo del drag
-function myDown(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    let mx = parseInt(e.clientX - offsetX);
-    let my = parseInt(e.clientY - offsetY);
-	dragok = false;
-	for (let i=0; i<=contPol; i++) {
-		for(let j = 0; j<poligonos[i].getSize(); j++){
-			let r = poligonos[i].getCirculo(j);
-			if(r != null){
-
-				let dx=r.getX()-mx;
-				let dy=r.getY()-my;
-				if(dx*dx+dy*dy < r.getRadio() * r.getRadio()){
-					console.log("Circulo nro: "+j);
-					dragok = true;
-					r.setTrue();
-				}
-			}
-			if(poligonos[i].estaCerrado()){
-				let r = poligonos[i].getCentro();
-				let dx=r.getX()-mx;
-				let dy=r.getY()-my;
-				if(dx*dx+dy*dy < r.getRadio() * r.getRadio()){
-					console.log("Centro");
-					dragok = true;
-					r.setTrue();
-				}	
-			}
-		}
-	}
-	startX = mx;
-	startY = my;
-}
 function myUp(e) {  
 	e.preventDefault();
 	e.stopPropagation();
 	dragok = false;
-	for (let i=0; i<=contPol; i++) {
-		for(let j = 0; j<poligonos[i].getSize(); j++){
-			poligonos[i].getCirculo(j).setFalse();
-		}
-		if(poligonos[i].estaCerrado()){
-			poligonos[i].getCentro().setFalse();
+	for (let i=0; i<=poligonos.length; i++) {
+		if(poligonos[i] != null){
+			for(let j = 0; j<poligonos[i].getSize(); j++){
+				poligonos[i].getCirculo(j).setFalse();
+			}
+			if(poligonos[i].estaCerrado()){
+				poligonos[i].getCentro().setFalse();
+			}
 		}
 	}
 }
@@ -228,30 +191,30 @@ function myMove(e) {
 		let my = parseInt(e.clientY - offsetY);
 		let dx = mx - startX;
 		let dy = my - startY;
-		
-		for(let i=0; i<=contPol; i++){
-			if(poligonos[i].estaCerrado()){
-				if(poligonos[i].getCentro().isDragging){
-					// moves todos esos nada mas
-					for(let j=0; j<poligonos[i].getSize();j++){
-						let r = poligonos[i].getCirculo(j);
+		for(let i=0; i<=poligonos.length; i++){
+			if(poligonos[i] != null){
+				if(poligonos[i].estaCerrado()){
+					if(poligonos[i].getCentro().getDragging()){
+						// moves todos esos nada mas
+						for(let j=0; j<poligonos[i].getSize();j++){
+							let c = poligonos[i].getCirculo(j);
+							c.setPlusX(dx);
+							c.setPlusY(dy);
+						}
+						poligonos[i].getCentro().setPlusX(dx);
+						poligonos[i].getCentro().setPlusY(dy);
+					}
+				}
+				for(let j=0; j<poligonos[i].getSize();j++){
+					let r = poligonos[i].getCirculo(j);
+					if (r.getDragging()) {
 						r.setPlusX(dx);
 						r.setPlusY(dy);
 					}
-					poligonos[i].getCentro().setPlusX(dx);
-					poligonos[i].getCentro().setPlusY(dy);
+					if(poligonos[i].estaCerrado())
+						poligonos[i].recalcularCentro();
 				}
 			}
-			for(let j=0; j<poligonos[i].getSize();j++){
-				let r = poligonos[i].getCirculo(j);
-				if (r.getDragging()) {
-					r.setPlusX(dx);
-					r.setPlusY(dy);
-				}
-				if(poligonos[i].estaCerrado())
-					poligonos[i].recalcularCentro();
-			}
-			
 		}
 		dibujarTodo();
 		startX = mx;
@@ -259,26 +222,71 @@ function myMove(e) {
 	}
 }
 // function borrarNodo(e){
-// 	e.preventDefault();
-//     e.stopPropagation();
-//     let mx = parseInt(e.clientX - offsetX);
-//     let my = parseInt(e.clientY - offsetY);
-// 	canvas.addEventListener("click",borrar);
-// 	function borrar(){
-// 		console.log("borrando?");
-// 		for(let i=0;i<=contPol;i++){
-// 			for(let j=0; j<poligonos[i].getSize();j++){
-// 				let r = poligonos[i].getCirculo(j);
-// 				if(r != null){
-
-// 					let dx=r.getX()-mx;
-// 					let dy=r.getY()-my;
-// 					if(dx*dx+dy*dy < r.getRadio() * r.getRadio()){
-// 						poligonos[i].eliminarNodo(j);
-// 					}
-// 				}
-// 			}
-// 		}
-// 	}
-// 	// canvas.removeEventListener("click",borrar);
 // }
+function mouseDown(event){
+	let x = event.layerX;
+	let y = event.layerY;
+	if(!clickSobreFigura(x,y)){
+		crearCirculo();
+		console.log("Circulo ["+contPol+"]"+"["+poligonos[contPol].getSize()+"]");
+	}else{
+		event.preventDefault();
+		event.stopPropagation();
+		let mx = parseInt(event.clientX - offsetX);
+		let my = parseInt(event.clientY - offsetY);
+		dragok = false;
+		for (let i=0; i<=poligonos.length; i++) {
+			if(poligonos[i] != null){
+				for(let j = 0; j<poligonos[i].getSize(); j++){
+					let c = poligonos[i].getCirculo(j);
+					if(c != null){
+						let dx=c.getX()-mx;
+						let dy=c.getY()-my;
+						if(dx*dx+dy*dy < Math.pow(c.getRadio(),2)){
+							dragok = true;
+							c.setTrue();
+						}
+					}
+					if(poligonos[i].estaCerrado()){
+						let c = poligonos[i].getCentro();
+						let dx=c.getX()-mx;
+						let dy=c.getY()-my;
+						if(dx*dx+dy*dy < Math.pow(c.getRadio(),2)){
+							dragok = true;
+							c.setTrue();
+						}	
+					}
+				}
+			}
+		}
+		startX = mx;
+		startY = my;
+	}
+}
+function clickSobreFigura(x,y){
+	for(let i=0;i<=poligonos.length;i++){
+		if(poligonos[i] != null){
+			if(poligonos[i].estaCerrado()){
+				let c = poligonos[i].getCentro();
+				let diametro = Math.pow(c.getRadio(),2);
+				let click = Math.sqrt( Math.pow(x - c.getX(),2) + Math.pow(y - c.getY(),2));
+				if(click < diametro){
+					console.log("Hiciste click en un centro");
+					return true;
+				}
+			}
+			for(let j=0;j<poligonos[i].getSize();j++){
+				let c = poligonos[i].getCirculo(j);
+				if(c != null){
+					let diametro = Math.pow(c.getRadio(),2);
+					let click = Math.sqrt( Math.pow(x - c.getX(),2) + Math.pow(y - c.getY(),2));
+					if(click < diametro){
+						console.log("Hiciste click en una figura");
+						return true;
+					}
+				}
+			}
+		}
+	}
+	return false;
+}
