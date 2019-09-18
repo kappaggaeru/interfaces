@@ -1,5 +1,5 @@
 .color:hover{
-  background-color: red;
+  animation: colorear 3s infinite;
 }
 .scale:hover{
   transform: scale(1.5);
@@ -8,17 +8,21 @@
   transform: translate(10px,10px);
 }
 .rotate:hover{
-  /*transform: rotate(-50deg);*/
   position :relative;
   animation-name: rotar;
   animation-duration: 5s;
   animation-iteration-count: infinite;
-  /*animation: rotar 5s infinite;*/
 }
 @keyframes rotar{
-  /*transform: rotate(-50deg);*/
   from {top: 0px;}
   to {top: 200px;}
+}
+@keyframes colorear{
+  /*from {background-color: white;}*/
+  /*to {background-color: red;}*/
+  0%{background-color: white;}
+  50%{background-color: red;}
+  100%{background-color: white;}
 }
 div{
   margin-top: 2px;
