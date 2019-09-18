@@ -1,0 +1,25 @@
+.color:hover{
+  background-color: red;
+}
+.scale:hover{
+  transform: scale(1.5);
+}
+.translate:hover{
+  transform: translate(10px,10px);
+}
+.rotate:hover{
+  /*transform: rotate(-50deg);*/
+  position :relative;
+  animation-name: rotar;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+  /*animation: rotar 5s infinite;*/
+}
+@keyframes rotar{
+  /*transform: rotate(-50deg);*/
+  from {top: 0px;}
+  to {top: 200px;}
+}
+div{
+  margin-top: 2px;
+}
