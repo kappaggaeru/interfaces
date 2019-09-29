@@ -1,29 +1,32 @@
-.color:hover{
-  animation: colorear 3s infinite;
+.color{
+	animation: colorear 3s infinite;
 }
-.scale:hover{
-  transform: scale(1.5);
+.scale{
+	animation: escala 3s infinite;
 }
-.translate:hover{
-  transform: translate(10px,10px);
+.translate{
+	animation: trasladar 3s infinite;
 }
-.rotate:hover{
-  position :relative;
-  animation-name: rotar;
-  animation-duration: 5s;
-  animation-iteration-count: infinite;
-}
-@keyframes rotar{
-  from {top: 0px;}
-  to {top: 200px;}
+.rotate{
+	position :relative;
+	animation: rotar 3s infinite;
 }
 @keyframes colorear{
-  /*from {background-color: white;}*/
-  /*to {background-color: red;}*/
-  0%{background-color: white;}
-  50%{background-color: red;}
-  100%{background-color: white;}
+	0%{background-color: white;}
+	100%{background-color: red;}
+}
+@keyframes escala{
+	from{transform: scale(1)}
+	to{transform: scale(1.5)}
+}
+@keyframes trasladar{
+	from{transform: translate(0px,0px)}
+	to{transform: translate(100px,100px)}
+}
+@keyframes rotar{
+	from {transform: rotate(0deg)}
+	to {transform: rotate(360deg)}
 }
 div{
-  margin-top: 2px;
+	margin-top: 2px;
 }

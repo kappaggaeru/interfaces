@@ -1,0 +1,135 @@
+.juego{
+	overflow: hidden;
+	position: relative;
+	width: 600px;
+	height: 300px;
+	margin: auto auto auto auto;
+}
+.border{
+	border: 1px black solid;
+}
+.juego div{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-repeat: repeat-x;
+	background-size: 100% 100%;
+}
+.playerBox div{
+	left: 35px;
+	bottom: 5px;
+	width: 47.25px;
+	height: 80px;
+	background-size: 400% 80px !important;
+}
+
+.back{
+	background: url("spritesheets/forest/parallax_forest_pack/layers/forestBack.png");
+	z-index: -4;
+	/* animation: playFront 25s linear infinite; */
+}
+.back-light{
+	background: url("spritesheets/forest/parallax_forest_pack/layers/forestBackLight.png");
+	z-index: -3;
+	/* animation: playFront 20s linear infinite; */
+}
+.middle{
+	background: url("spritesheets/forest/parallax_forest_pack/layers/forestMiddle.png");
+	z-index: -2;
+	/* animation: playFront 10s linear infinite; */
+}
+.grass{
+	background: url("spritesheets/forest/grass2.png");
+	bottom:0;
+	width: 100% !important;
+	height: 30% !important;
+	z-index: 2;
+	/* animation: playFront 5s linear infinite; */
+}
+.front{
+	background: url("spritesheets/forest/parallax_forest_pack/layers/forestFront.png");
+	z-index: -1;
+	/* animation: playFront 5s linear infinite; */
+}
+.playerBox{
+	position: absolute;
+	bottom: 0;
+	width: 47.25px;
+	height: 80px;
+}
+.player{
+	/* background: url("spritesheets/sans/sansWalkSmall.png"); */
+	background: url("spritesheets/sans/sansStands.png");
+	z-index: 0;
+	/* animation: run 0.5s steps(4) infinite; */
+}
+@keyframes run{
+	/* 100%{background-position: -718px} */
+	100%{background-position: -189px}
+}
+@keyframes playFront{
+	/* 100%{background-position: -272px} */
+	100%{background-position: -600px}
+}
+@keyframes jump{
+	50%{transform: translateY(-150px);}
+}
+.enemies{
+	position: absolute;
+	bottom: 0;
+	width: 10px;
+	height: 10px;
+}
+.enemies div{
+	bottom: 45px !important;
+	right: 35px !important;
+	width: 10px !important;
+	height: 10px !important;
+	background-size: 10px 10px !important;
+}
+.enemy{
+	z-index: 0;
+	width: 10px !important;
+	height: 10px !important;
+	background-color: red;
+	animation: enemyAttack 3s infinite;
+}
+@keyframes enemyAttack{
+	/* 100%{transform: translateX(-800px);} */
+	from{left:100%;}
+	to{left:-50%;}
+}
+.healthBar{
+	top: 5px;
+	left: 5px;
+	width: 100px !important;
+	height: 30px !important;
+}
+.heart{
+	width: 30px !important;
+	height: 25px !important;
+	position: unset !important;
+	background: url("spritesheets/heart/newHeart.png");
+	background-size: 100% 100% !important;
+	background-repeat: no-repeat !important;
+	/* display: inline; */
+	float: left !important;
+	margin-left: 2px;
+	margin-top: 2px;
+}
+.scoreBar{
+	top:5px;
+	right:5px;
+	width: 130px !important;
+	height: 30px !important;
+}
+.score{
+	width: 30px !important;
+	height: 25px !important;
+	position: unset !important;
+	background-size: 100% 100% !important;
+	background-repeat: no-repeat !important;
+	float: left !important;
+	margin-left: 2px;
+	margin-top: 2px;	
+}
