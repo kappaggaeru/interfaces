@@ -24,14 +24,16 @@ function detectKey(event){
 			generateEnemy();
 		}
 	}
-	if(key == "KeyS"){
-		startGame();
-		generateEnemy();
+	if(!isAlive()){
+		if(key == "KeyS"){
+			startGame();
+			generateEnemy();
+		}
 	}
-	if(key == "KeyW"){
-		stopGame();
-		gameOver();
-	}
+	// if(key == "KeyW"){
+	// 	stopGame();
+	// 	gameOver();
+	// }
 }
 function startGame(){
 	console.log("GAME STARTED");
@@ -40,6 +42,8 @@ function startGame(){
 	score = 0;
 	generateHealthBar();
 	increaseScore();
+	let msg = document.getElementById("message");
+	msg.style.display="none";
 	player.style.background = "url('spritesheets/sans/sansWalkSmall.png')";
 	run();
 	document.getElementsByClassName("back")[0].style.animation = "playFront 25s linear infinite";
@@ -50,6 +54,8 @@ function startGame(){
 }
 function stopGame(){
 	console.log("GAME FINISHED");
+	let msg = document.getElementById("message");
+	msg.style.display="block";
 	player.style.animation = "";
 	document.getElementsByClassName("back")[0].style.animation = "";
 	document.getElementsByClassName("back-light")[0].style.animation = "";
