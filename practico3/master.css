@@ -20,7 +20,7 @@
 	bottom: 5px;
 	width: 47.25px;
 	height: 80px;
-	background-size: 400% 80px !important;
+	/* background-size: 400% 80px !important; */
 }
 
 .back{
@@ -59,7 +59,7 @@
 }
 .player{
 	/* background: url("spritesheets/sans/sansWalkSmall.png"); */
-	background: url("spritesheets/sans/sansStands.png");
+	background: url("spritesheets/sans/sansStandSmall.png");
 	z-index: 0;
 	/* animation: run 0.5s steps(4) infinite; */
 }
