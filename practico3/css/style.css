@@ -12,7 +12,8 @@
 }
 @keyframes colorear{
 	0%{background-color: white;}
-	100%{background-color: red;}
+	50%{background-color: red;}
+	100%{background-color: white;}
 }
 @keyframes escala{
 	from{transform: scale(0.7)}

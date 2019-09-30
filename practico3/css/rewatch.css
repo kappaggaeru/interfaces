@@ -1,0 +1,73 @@
+.wacthBox{
+	width: 200px;
+	height: 200px;
+	border: 1px black solid;
+	background-color: rgb(221, 221, 241);
+	border-radius: 100%;
+	margin: auto auto auto auto;
+	position: relative;
+}
+.needles div{
+	transform-origin:bottom;
+	position:absolute;
+	left:49%;
+	width:2%;
+}
+.secondNeedle{
+	left:49% !important;
+	width:1% !important;
+	height: 45%;
+	background-color: red;
+	border-top-right-radius: 40%;
+	border-top-left-radius: 40%;
+	top: 5%;
+	/* animation: spinNeedle 60s infinite; */
+}
+.minuteNeedle{
+	height: 30%;
+	background-color: grey;
+	top: 20%;
+	border-top-right-radius: 30%;
+    border-top-left-radius: 30%;
+	/* animation: spinNeedle 3600s infinite; */
+}
+.hourNeedle{
+	height: 20%;
+	background-color: black;
+	top: 30%;
+	border-top-right-radius: 20%;
+    border-top-left-radius: 20%;
+	/* animation: spinNeedle 86400s infinite; */
+}
+@keyframes spinNeedle{100%{transform: rotateZ(360deg);}}
+.center{
+	width: 4%;
+	height: 4%;
+	border: 1px black solid;
+	border-radius: 100%;
+	background-color: white;
+	position:absolute;
+	left: 47.5%;
+	top: 47.5%;
+}
+.border{
+	border: 1px black solid;
+}
+.hours{
+	width: 100%;
+	height: 100%;
+}
+.hours div{
+	width: 95%;
+	height: 2%;
+	border-left: 5px solid #000;
+	border-right: 5px solid #000;
+	position: absolute;
+	top:49%;
+}
+.hour12-6{transform: rotateZ(90deg);}
+.hour1-7{transform: rotateZ(120deg);}
+.hour2-8{transform: rotateZ(150deg);}
+.hour3-9{transform: rotateZ(0deg);}
+.hour4-10{transform: rotateZ(30deg);}
+.hour5-11{transform: rotateZ(60deg);}
