@@ -11,6 +11,7 @@ let alive = false;
 let timeColl = null;
 let score = 0;
 let timeScore = null;
+let collision = true;
 
 function detectKey(event){
 	let key = event.code;
@@ -63,6 +64,7 @@ function stopGame(){
 	document.getElementsByClassName("front")[0].style.animation = "";
 }
 function starCollision(){
+	collision = false;
 	player.style.background = "url('spritesheets/sans/sansCollisionSmallExtra.png')";
 	timeColl = setTimeout(stopCollision,1000);
 }
@@ -70,6 +72,7 @@ function stopCollision(){
 	player.style.background = "url('spritesheets/sans/sansWalkSmall.png')";
 	clearTimeout(timeColl);
 	timeColl = null;
+	collision = true;
 }
 let timeRun = null;
 let timeEndJump = null;
@@ -141,7 +144,9 @@ function checkCollision(){
 			right: elemBound.left + elemBound.width
 		};
 		if(overlap(playerPos,objPos)){
-			lifeCounter--;
+			if(collision){
+				lifeCounter--;
+			}
 			if(lifeCounter == 0){
 				stopGame();
 				gameOver();
