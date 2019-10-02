@@ -17,7 +17,6 @@ function detectKey(event){
 	if(isAlive()){
 		if(key == "Space" && !jumping){
 			console.log(key);
-			jumping = true;
 			jump()
 		}
 		if(key == "KeyE"){
@@ -75,8 +74,9 @@ function stopCollision(){
 let timeRun = null;
 let timeEndJump = null;
 function jump(){
-	player.style.animation = "jump 0.5s";
 	if(isAlive()){
+		jumping = true;
+		player.style.animation = "jump 0.5s";
 		timeRun = setTimeout(run, 450);
 		timeEndJump =setTimeout(finishJump, 800);
 	}
@@ -85,9 +85,11 @@ function isAlive(){
 	return alive;
 }
 function run(){
-	player.style.animation = "run 0.5s steps(4) infinite";
-	clearTimeout(timeRun);
-	timeRun = null;
+	if(isAlive()){
+		player.style.animation = "run 0.5s steps(4) infinite";
+		clearTimeout(timeRun);
+		timeRun = null;
+	}
 }
 function death(){
 	player.style.background = "url('spritesheets/sans/sansDeathBWSmall.png')";
@@ -98,9 +100,17 @@ function finishJump(){
 	clearTimeout(timeEndJump);
 	timeEndJump = null;
 }
-
+function EnemySpawn(enemies){
+	let r = Math.floor(Math.random()*3+1);
+	switch(r){
+		case 1:enemies.style.bottom = "-30px";break;
+		case 2:enemies.style.bottom = "-50px";break;
+		case 3:enemies.style.bottom = "0px";break;
+	}
+}
 function generateEnemy(){
 	let enemies = document.getElementsByClassName("enemies")[0];
+	EnemySpawn(enemies);
 	let div = document.createElement("div");
 	div.classList.add("enemy");
 	enemies.appendChild(div);
@@ -159,7 +169,7 @@ function gameOver(){
 	stopScore();
 	// clearInterval(inter);
 	inter = null;
-	// player.style.animation = "";
+	player.style.animation = "none";
 }
 function consoleCoords(e){
 	console.log("T: "+e.getBoundingClientRect().top);
