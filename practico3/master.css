@@ -76,28 +76,27 @@
 }
 .enemies{
 	position: absolute;
-	bottom: 0;
-	width: 10px;
-	height: 10px;
-}
-.enemies div{
-	bottom: 45px !important;
-	right: 35px !important;
-	width: 10px !important;
-	height: 10px !important;
-	background-size: 10px 10px !important;
+	/* bottom: -30px; */
+	width: 99px;
+	height: 30px;
 }
 .enemy{
 	z-index: 0;
-	width: 10px !important;
-	height: 10px !important;
-	background-color: red;
-	animation: enemyAttack 3s infinite;
+	width: 99px !important;
+	height: 30px !important;
+	background-repeat: no-repeat !important;
+	background: url("spritesheets/fireball/blueFireballSmal.png");
+	background-size: 300% 100% !important;
+	animation: enemyAttack 3s infinite,
+		playFire 1s steps(3) infinite;
 }
 @keyframes enemyAttack{
 	/* 100%{transform: translateX(-800px);} */
 	from{left:100%;}
 	to{left:-50%;}
+}
+@keyframes playFire{
+	100%{background-position: -297px;}
 }
 .healthBar{
 	top: 5px;
